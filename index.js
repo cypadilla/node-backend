@@ -5,14 +5,13 @@ const cors = require('cors');
 const {logErrors, errorHandler, boomErrorHandler} = require('./middlewares/error.handler');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 /* A whitelist of allowed origins. */
 const whiteList = ['http://localhost:8080','http://localhost:3000','http://127.0.0.1:5501'];
 const options = {
   origin:(origin, callback)=>{
-    console.log(origin)
-    if(whiteList.includes(origin)){
+    if(whiteList.includes(origin)|| !origin){
       callback(null,true);
     }else{
       callback(new Error ('No permitido'))
