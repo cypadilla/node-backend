@@ -1,11 +1,16 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
-
+// const pool = require('./../libs/postgres.pool') ya no se usara la conexion por pool ya qe sequelize trae la conexion por pool
+const sequelize = require('./../libs/sequelize');
 class ProductsService{
 
   constructor(){
     this.products = [];
     this.generate();
+    // this.pool = pool;
+    // this,pool.on('error',(err)=>{
+    //   console.log(err)
+    // })
   }
 
   generate(){
@@ -32,15 +37,27 @@ class ProductsService{
   }
 
   async find(){
-    return  new Promise((resolve,reject)=>{
-      if(this.products){
-        setTimeout(()=>{
-         resolve(this.products)
-        },5000)
-      }else{
-        reject('f')
-      }
-    })
+    // return  new Promise((resolve,reject)=>{
+    //   if(this.products){
+    //     setTimeout(()=>{
+    //      resolve(this.products)
+    //     },5000)
+    //   }else{
+    //     reject('f')
+    //   }
+    // })
+
+    // consulta por pool
+      // const query = 'SELECT * FROM tasks';
+      // const rta = await this.pool.query(query);
+      // return rta.rows;
+    // consulta por sequelize tambien se pueden usar las consultas con sql
+    const query = 'SELECT * FROM tasks';
+    // const [data, metadata] = await sequelize.query(query); envia la data en un array
+    const [data] = await sequelize.query(query);
+    return {
+      data
+    }
   }
 
   async findOne(id){

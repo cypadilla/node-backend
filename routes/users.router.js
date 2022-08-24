@@ -21,6 +21,7 @@ router.get('/filter',(req,res)=>{
   res.send()
 });
 
+/* A route that is going to get a user by id. */
 router.get('/:id',
   validatorHandler(getUserSchema, 'params'),
   async (req,res,next)=>{
